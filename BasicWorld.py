@@ -15,9 +15,9 @@ granite_obelisk = Place("Obelisk of the Lathenheim Fiends", "A shiny black and r
 inital_location = hill
 
 # Wire together all of the places
-grasslands.attach_to_north_of(hill)
-abandoned_castle_front.attach_to_north_of(grasslands)
-abandoned_castle_corner_se.attach_to_east_of(abandoned_castle_front)
-abandoned_castle_corner_sw.attach_to_west_of(abandoned_castle_front)
-swarshy_swamp.attach_to_east_of(grasslands)
-granite_obelisk.attach_to_east_of(swarshy_swamp)
+hill.north = grasslands
+grasslands.north = abandoned_castle_front
+abandoned_castle_front.east = abandoned_castle_corner_se
+abandoned_castle_front.west = abandoned_castle_corner_sw
+grasslands.east = swarshy_swamp
+swarshy_swamp.east = granite_obelisk

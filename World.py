@@ -67,33 +67,37 @@ class Place(GameObject):
         while player.is_here(self):
             wp.process_input(UI.prompt(), player)
 
-    def attach_to_north_of(self, place):
-        attach(self, "north", place)
-
-    def attach_to_east_of(self, place):
-        attach(self, "east", place)
-
-    def attach_to_south_of(self, place):
-        attach(self, "south", place)
-
-    def attach_to_west_of(self, place):
-        attach(self, "west", place)
-
     @property
     def north(self):
         return get_place_north_of(self)
+
+    @north.setter
+    def north(self, place):
+        attach(place, "north", self)
 
     @property
     def east(self):
         return get_place_east_of(self)
 
+    @east.setter
+    def east(self, place):
+        attach(place, "east", self)
+
     @property
     def south(self):
         return get_place_south_of(self)
 
+    @south.setter
+    def south(self, place):
+        attach(place, "south", self)
+
     @property
     def west(self):
         return get_place_west_of(self)
+
+    @west.setter
+    def west(self, place):
+        attach(place, "west", self)
 
     def take(self, item):
         self.things_here.append(item)
