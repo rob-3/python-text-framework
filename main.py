@@ -13,7 +13,7 @@ def main():
     """
     UI.println("Welcome to my game!")
 
-    player = Player(100, [], world.inital_location)
+    player = Player(100, [], world.initial_location)
     UI.println(world.intro_text)
     while True:
         player.location.on_enter(player)

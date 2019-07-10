@@ -14,7 +14,7 @@ swarshy_swamp = Place("Swarshy Swamp", "Muck and vines lather the faces of the t
 granite_obelisk = Place("Obelisk of the Lathenheim Fiends", "A shiny black and red tower rises into the swirling purple sky.")
 
 # Set player's initial location
-inital_location = hill
+initial_location = hill
 
 # Wire together all of the places
 hill.north = grasslands
