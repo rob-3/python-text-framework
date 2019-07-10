@@ -1,6 +1,8 @@
 from World import Place
 from Item import Item
 
+intro_text = ''
+
 key = Item("Key", "A simple worn metal key.")
 hill = Place("Hill", "You walk up a long path to the top of a nearby hill. The air is clear and there is a castle far to the north.", [key])
 grasslands = Place("", "You reach a grasslands area at the foot of a hill to the south. To the north there is a castle.")
