@@ -2,7 +2,7 @@
 The main game class.
 """
 import UI
-import BasicWorld as world
+import NewWorld as world
 from Player import Player
 
 # TODO allow player to pick a world from many options
