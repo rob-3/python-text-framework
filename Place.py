@@ -3,8 +3,6 @@ Place Module
 ------------
 This module defines a Place class
 """
-from dataclasses import dataclass
-
 from GameObject import GameObject
 from Immovable import Immovable
 import UI
