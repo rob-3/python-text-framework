@@ -1,4 +1,4 @@
-from World import Place
+from Place import Place
 from Item import Item
 
 intro_text = ''

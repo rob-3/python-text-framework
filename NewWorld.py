@@ -1,4 +1,4 @@
-from World import Place
+from Place import Place
 from Item import Item
 
 intro_text = 'You wake up, sprawled on the floor in a small space. You don\'t '

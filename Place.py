@@ -1,8 +1,7 @@
 """
-World Module
+Place Module
 ------------
-This module defines a Place class and a WorldManager for managing relationships
-between Places.
+This module defines a Place class
 """
 from dataclasses import dataclass
 
@@ -11,7 +10,8 @@ import UI
 import WordParser as wp
 
 class Place(GameObject):
-    def __init__(self, name, description, things_here=None):
+    def __init__(self, name, description, things_here=None, north=None,
+            east=None, south=None, west=None):
         self.description = description
 
         if things_here is None:
@@ -19,6 +19,10 @@ class Place(GameObject):
         self.things_here = things_here
         self.identifiers = ["here", "around", name]
         self.name = name
+        self._north = north
+        self._east = east
+        self._south = south
+        self._west = west
 
     def contains_thing(self, game_object):
         """
@@ -69,35 +73,43 @@ class Place(GameObject):
 
     @property
     def north(self):
-        return get_place_north_of(self)
+        return self._north
 
     @north.setter
     def north(self, place):
-        attach(place, "north", self)
+        if self._north is not place:
+            self._north = place
+            place.south = self
 
     @property
     def east(self):
-        return get_place_east_of(self)
+        return self._east
 
     @east.setter
     def east(self, place):
-        attach(place, "east", self)
+        if self._east is not place:
+            self._east = place
+            place.west = self
 
     @property
     def south(self):
-        return get_place_south_of(self)
+        return self._south
 
     @south.setter
     def south(self, place):
-        attach(place, "south", self)
+        if self._south is not place:
+            self._south = place
+            place.north = self
 
     @property
     def west(self):
-        return get_place_west_of(self)
+        return self._west
 
     @west.setter
     def west(self, place):
-        attach(place, "west", self)
+        if self._west is not place:
+            self._west = place
+            place.east = self
 
     def take(self, item):
         self.things_here.append(item)
@@ -106,56 +118,3 @@ class Place(GameObject):
         # FIXME else
         if item in self.things_here:
             self.things_here.remove(item)
-
-def get_opposite_direction(direction):
-    if direction == "north":
-        return "south"
-    elif direction == "east":
-        return "west"
-    elif direction == "south":
-        return "north"
-    elif direction == "west":
-        return "east"
-    else:
-        return None
-
-
-
-_exits = []
-
-def attach(place1, direction, place2):
-    """
-    Creates two exit objects: one heading in $direction from $place2 to
-    $place1, and the other heading in $direction.opposite from $place1 to
-    $place2.
-    """
-    my_exit = Exit(place2, direction, place1)
-    opposite_exit = Exit(place1, get_opposite_direction(direction), place2)
-    _exits.append(my_exit)
-    _exits.append(opposite_exit)
-
-def get_place(direction, origin):
-    # There should only be one exit that matches the criteria
-    # FIXME check for other places and raise exception
-    for my_exit in _exits:
-        if my_exit.direction == direction and my_exit.origin == origin:
-            return my_exit.destination
-    return None
-
-def get_place_north_of(origin):
-    return get_place("north", origin)
-
-def get_place_east_of(origin):
-    return get_place("east", origin)
-
-def get_place_south_of(origin):
-    return get_place("south", origin)
-
-def get_place_west_of(origin):
-    return get_place("west", origin)
-
-@dataclass
-class Exit:
-    origin: Place
-    direction: str
-    destination: Place
