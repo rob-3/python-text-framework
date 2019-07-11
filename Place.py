@@ -6,6 +6,7 @@ This module defines a Place class
 from dataclasses import dataclass
 
 from GameObject import GameObject
+from Immovable import Immovable
 import UI
 import WordParser as wp
 
@@ -118,3 +119,24 @@ class Place(GameObject):
         # FIXME else
         if item in self.things_here:
             self.things_here.remove(item)
+
+class Door(Immovable):
+    def __init__(self, origin, destination, description, key_id, locked=False, identifiers=None, name='Door'):
+        super().__init__(name, description, identifiers)
+        self.key_id = key_id
+        self.description = description
+        self.name = name
+        self.origin = origin
+        self.destination = destination
+        self.locked = locked
+
+    def other_side(self, place):
+        if place is self.origin:
+            return self.destination
+        elif place is self.destination:
+            return self.origin
+        else:
+            raise PassedWrongPlaceToDoorException()
+
+class PassedWrongPlaceToDoorException(Exception):
+    pass
