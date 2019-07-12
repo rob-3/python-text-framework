@@ -48,19 +48,29 @@ class Place(GameObject):
     def print_description(self):
         UI.print_in_box(self.name)
         UI.println(self.description)
+
         for index, item in enumerate(self.things_here):
             if index == 0:
                 UI.println()
             UI.println(f"There is a {item.name.lower()} here.")
+
+        # This avoids a double print of door and direction for exits
+        directions_accounted_for = {'north': False, 'east': False, 'south':
+                False, 'west': False}
+        # We want a leading blank line to help with readability
         UI.println()
-        if self.north is not None:
-            UI.println("There is an exit to the north.")
-        if self.east is not None:
-            UI.println("There is an exit to the east.")
-        if self.south is not None:
-            UI.println("There is an exit to the south.")
-        if self.west is not None:
-            UI.println("There is an exit to the west.")
+
+        for direction, door in self.doors.items():
+            if door is not None:
+                if door.closed:
+                    UI.println(f'There is a closed door to the {direction}.')
+                else:
+                    UI.println(f'There is an open door to the {direction}.')
+                directions_accounted_for[direction] = True
+
+        for direction, place in self.places.items():
+            if not directions_accounted_for[direction] and place is not None:
+                UI.println(f"There is an exit to the {direction}.")
 
     def on_go(self, player):
         player.move_to(self)
