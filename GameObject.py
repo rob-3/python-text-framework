@@ -12,6 +12,10 @@ class GameObject:
             self.on_pickup(player)
         elif verb == "drop":
             self.on_drop(player)
+        elif verb == 'open':
+            self.on_open(player)
+        elif verb == 'close':
+            self.on_close(player)
         else:
             raise Exception("Verb not defined in GameObject.py")
 
@@ -30,9 +34,15 @@ class GameObject:
     def on_drop(self, player):
         self.generic_reject()
 
+    def on_open(self, player):
+        self.generic_reject()
+
+    def on_close(self, player):
+        self.generic_reject()
+
     def print_description(self):
         raise NotImplementedError
-    
+
     def generic_reject(self):
         # TODO improve with multiple responses and random choice
         UI.println("You're not making any sense.")

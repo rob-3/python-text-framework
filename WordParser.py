@@ -1,5 +1,7 @@
-all_verbs = ["go", "look", "burn", "take", "drop", "get", "obtain"]
-all_nouns = ["north", "south", "east", "west", "around", "here", "me", "myself", "i"]
+all_verbs = ["go", "look", "burn", "take", "drop", "get", "obtain", 'open',
+        'close']
+all_nouns = ["north", "south", "east", "west", "around", "here", "me", "myself",
+        "i", 'door']
 
 import re
 from dataclasses import dataclass

@@ -16,7 +16,7 @@ class Place(GameObject):
 
         if things_here is None:
             things_here = []
-        self.things_here = things_here
+        self._things_here = things_here
         self.identifiers = ["here", "around", name]
         self.name = name
         self.places = {'north': north, 'east': east, 'south': south, 'west': west}
@@ -49,7 +49,7 @@ class Place(GameObject):
         UI.print_in_box(self.name)
         UI.println(self.description)
 
-        for index, item in enumerate(self.things_here):
+        for index, item in enumerate(self._things_here):
             if index == 0:
                 UI.println()
             UI.println(f"There is a {item.name.lower()} here.")
@@ -166,12 +166,16 @@ class Place(GameObject):
                 self.doors['west'] = place.doors['east']
 
     def take(self, item):
-        self.things_here.append(item)
+        self._things_here.append(item)
 
     def give(self, item):
         # FIXME else
-        if item in self.things_here:
-            self.things_here.remove(item)
+        if item in self._things_here:
+            self._things_here.remove(item)
+
+    @property
+    def things_here(self):
+        return self._things_here + [door for door in self.doors.values() if door is not None]
 
 class Door(Immovable):
     def __init__(self, description, key_id, closed=True, locked=False, identifiers=None, name='Door'):
@@ -195,10 +199,27 @@ class Door(Immovable):
             raise PassedWrongPlaceToDoorException()
 
     def on_go(self, player):
-        if self.locked:
-            UI.println('The door is locked.')
+        if self.closed:
+            UI.println('The door is closed.')
         else:
             self.other_side(player.location).on_go(player)
+
+    def on_open(self, player):
+        if self.closed:
+            if self.locked:
+                UI.println('The door is locked.')
+            else:
+                self.closed = False
+                UI.println('The door is now open.')
+        else:
+            UI.println('The door is already open.')
+
+    def on_close(self, player):
+        if self.closed:
+            UI.println('The door is already closed.')
+        else:
+            self.closed = True 
+            UI.println('The door is now closed.')
 
 class PassedWrongPlaceToDoorException(Exception):
     pass
