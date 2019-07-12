@@ -10,7 +10,8 @@ import WordParser as wp
 
 class Place(GameObject):
     def __init__(self, name, description, things_here=None, north=None,
-            east=None, south=None, west=None):
+            east=None, south=None, west=None, door_north=None, door_east=None,
+            door_south=None, door_west=None):
         self.description = description
 
         if things_here is None:
@@ -18,10 +19,10 @@ class Place(GameObject):
         self.things_here = things_here
         self.identifiers = ["here", "around", name]
         self.name = name
-        self._north = north
-        self._east = east
-        self._south = south
-        self._west = west
+        self.places = {'north': north, 'east': east, 'south': south, 'west': west}
+        self.doors = {'north': door_north, 'east': door_east, 'south': door_south, 'west': door_west}
+        # FIXME appends doors to things_here
+        # FIXME lists for direction refs and doors
 
     def contains_thing(self, game_object):
         """
@@ -72,43 +73,87 @@ class Place(GameObject):
 
     @property
     def north(self):
-        return self._north
+        if self.doors['north'] is not None:
+            return self.doors['north']
+        return self.places['north']
 
     @north.setter
     def north(self, place):
-        if self._north is not place:
-            self._north = place
+        if self.places['north'] is not place:
+            self.places['north'] = place
             place.south = self
+            # Door handling
+            if self.doors['north'] is not None:
+                self.doors['north'].origin = self
+                self.doors['north'].destination = place
+                place.doors['south'] = self.doors['north']
+            elif place.doors['south'] is not None:
+                place.doors['south'].origin = place
+                place.doors['south'].destination = self
+                self.doors['north'] = place.doors['south']
 
     @property
     def east(self):
-        return self._east
+        if self.doors['east'] is not None:
+            return self.doors['east']
+        return self.places['east']
 
     @east.setter
     def east(self, place):
-        if self._east is not place:
-            self._east = place
+        if self.places['east'] is not place:
+            self.places['east'] = place
             place.west = self
+            # Door handling
+            if self.doors['east'] is not None:
+                self.doors['east'].origin = self
+                self.doors['east'].destination = place
+                place.doors['west'] = self.doors['east']
+            elif place.doors['west'] is not None:
+                place.doors['west'].origin = place
+                place.doors['west'].destination = self
+                self.doors['east'] = place.doors['west']
 
     @property
     def south(self):
-        return self._south
+        if self.doors['south'] is not None:
+            return self.doors['south']
+        return self.places['south']
 
     @south.setter
     def south(self, place):
-        if self._south is not place:
-            self._south = place
+        if self.places['south'] is not place:
+            self.places['south'] = place
             place.north = self
+            # Door handling
+            if self.doors['south'] is not None:
+                self.doors['south'].origin = self
+                self.doors['south'].destination = place
+                place.doors['north'] = self.doors['south']
+            elif place.doors['north'] is not None:
+                place.doors['north'].origin = place
+                place.doors['north'].destination = self
+                self.doors['south'] = place.doors['north']
 
     @property
     def west(self):
-        return self._west
+        if self.doors['west'] is not None:
+            return self.doors['west']
+        return self.places['west']
 
     @west.setter
     def west(self, place):
-        if self._west is not place:
-            self._west = place
+        if self.places['west'] is not place:
+            self.places['west'] = place
             place.east = self
+            # Door handling
+            if self.doors['west'] is not None:
+                self.doors['west'].origin = self
+                self.doors['west'].destination = place
+                place.doors['east'] = self.doors['west']
+            elif place.doors['east'] is not None:
+                place.doors['east'].origin = place
+                place.doors['east'].destination = self
+                self.doors['west'] = place.doors['east']
 
     def take(self, item):
         self.things_here.append(item)
@@ -119,22 +164,30 @@ class Place(GameObject):
             self.things_here.remove(item)
 
 class Door(Immovable):
-    def __init__(self, origin, destination, description, key_id, locked=False, identifiers=None, name='Door'):
+    def __init__(self, description, key_id, locked=False, identifiers=None, name='Door'):
         super().__init__(name, description, identifiers)
         self.key_id = key_id
         self.description = description
         self.name = name
-        self.origin = origin
-        self.destination = destination
+        self.origin = None
+        self.destination = None
         self.locked = locked
 
     def other_side(self, place):
+        if place is None:
+            raise PassedWrongPlaceToDoorException()
         if place is self.origin:
             return self.destination
         elif place is self.destination:
             return self.origin
         else:
             raise PassedWrongPlaceToDoorException()
+
+    def on_go(self, player):
+        if self.locked:
+            UI.println('The door is locked.')
+        else:
+            self.other_side(player.location).on_go(player)
 
 class PassedWrongPlaceToDoorException(Exception):
     pass
