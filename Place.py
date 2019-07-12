@@ -164,7 +164,7 @@ class Place(GameObject):
             self.things_here.remove(item)
 
 class Door(Immovable):
-    def __init__(self, description, key_id, locked=False, identifiers=None, name='Door'):
+    def __init__(self, description, key_id, closed=True, locked=False, identifiers=None, name='Door'):
         super().__init__(name, description, identifiers)
         self.key_id = key_id
         self.description = description
@@ -172,6 +172,7 @@ class Door(Immovable):
         self.origin = None
         self.destination = None
         self.locked = locked
+        self.closed = closed
 
     def other_side(self, place):
         if place is None:
