@@ -1,8 +1,8 @@
 from Place import Place, Door
 from Item import Item
 
-intro_text = 'You wake up, sprawled on the floor in a small space. You don\'t '
-'feel too good and your brain feels foggy.'
+intro_text = ('You wake up, sprawled on the floor in a small space. You don\'t '
+'feel too good and your brain feels foggy.')
 
 closet = Place(name='Closet', description='You appear to be in a storage closet '
         'of some kind.', door_north=Door(description='A simple wooden door.',
