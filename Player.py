@@ -1,15 +1,15 @@
-"""
+'''
 The Player character in the game.
-"""
+'''
 from GameObject import GameObject
 import UI
 
 class Player(GameObject):
     def __init__(self, hp, inventory, starting_location):
         # FIXME name
-        self.name = "[Player name]"
-        self.description = "It's you, what did you expect?"
-        self.identifiers = ["me", "myself", "i"]
+        self.name = '[Player name]'
+        self.description = 'It\'s you, what did you expect?'
+        self.identifiers = ['me', 'myself', 'i']
         self.hp = hp
         self.inventory = inventory
         self.location = starting_location
@@ -49,10 +49,10 @@ class Player(GameObject):
         return all_things
 
     def on_burn(self, player):
-        UI.println("Are you masochistic?")
+        UI.println('Are you masochistic?')
 
     def on_go(self, player):
-        UI.println("You are already with yourself.")
+        UI.println('You are already with yourself.')
 
     def print_description(self):
         UI.println(self.description)

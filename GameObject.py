@@ -2,22 +2,22 @@ import UI
 
 class GameObject:
     def invoke(self, verb, player):
-        if verb == "go":
+        if verb == 'go':
             self.on_go(player)
-        elif verb == "look":
+        elif verb == 'look':
             self.on_look(player)
-        elif verb == "burn":
+        elif verb == 'burn':
             self.on_burn(player)
-        elif verb in ["take", "get", "obtain"]:
+        elif verb in ['take', 'get', 'obtain']:
             self.on_pickup(player)
-        elif verb == "drop":
+        elif verb == 'drop':
             self.on_drop(player)
         elif verb == 'open':
             self.on_open(player)
         elif verb == 'close':
             self.on_close(player)
         else:
-            raise Exception("Verb not defined in GameObject.py")
+            raise Exception('Verb not defined in GameObject.py')
 
     def on_burn(self, player):
         self.generic_reject()
@@ -45,4 +45,4 @@ class GameObject:
 
     def generic_reject(self):
         # TODO improve with multiple responses and random choice
-        UI.println("You're not making any sense.")
+        UI.println('You\'re not making any sense.')

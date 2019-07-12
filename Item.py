@@ -12,10 +12,10 @@ class Item(GameObject):
         self.identifiers.append(name.lower())
     
     def on_burn(self, player):
-        UI.println("This is not something you should burn.")
+        UI.println('This is not something you should burn.')
 
     def on_go(self, player):
-        UI.println("You're there.")
+        UI.println('You\'re there.')
 
     def print_description(self):
         UI.print_in_box(self.name, False)
@@ -26,11 +26,11 @@ class Item(GameObject):
         if player.has(self):
             player.give(self)
             player.location.take(self)
-            UI.println("Dropped.")
+            UI.println('Dropped.')
 
     def on_pickup(self, player):
         # FIXME else
         if self in player.location.things_here:
             player.take(self)
             player.location.give(self)
-            UI.println("Taken.")
+            UI.println('Taken.')

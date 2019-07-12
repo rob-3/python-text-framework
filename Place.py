@@ -1,8 +1,8 @@
-"""
+'''
 Place Module
 ------------
 This module defines a Place class
-"""
+'''
 from GameObject import GameObject
 from Immovable import Immovable
 import UI
@@ -17,7 +17,7 @@ class Place(GameObject):
         if things_here is None:
             things_here = []
         self._things_here = things_here
-        self.identifiers = ["here", "around", name]
+        self.identifiers = ['here', 'around', name]
         self.name = name
         self.places = {'north': north, 'east': east, 'south': south, 'west': west}
         self.doors = {'north': door_north, 'east': door_east, 'south': door_south, 'west': door_west}
@@ -25,25 +25,25 @@ class Place(GameObject):
         # FIXME lists for direction refs and doors
 
     def contains_thing(self, game_object):
-        """
+        '''
         This implementation relies on the fact that game_object.location is
         actually updated as it changes.
-        """
+        '''
         return bool(game_object.location == self)
 
     def on_burn(self, player):
         if player.is_here(self):
-            UI.println("What kind of pyromaniac are you?")
+            UI.println('What kind of pyromaniac are you?')
         else:
             # FIXME
-            UI.println("Too far away.")
+            UI.println('Too far away.')
 
     def on_look(self, player):
         if player.is_here(self):
             self.print_description()
         else:
             # FIXME
-            UI.println("Too far away.")
+            UI.println('Too far away.')
 
     def print_description(self):
         UI.print_in_box(self.name)
@@ -52,7 +52,7 @@ class Place(GameObject):
         for index, item in enumerate(self._things_here):
             if index == 0:
                 UI.println()
-            UI.println(f"There is a {item.name.lower()} here.")
+            UI.println(f'There is a {item.name.lower()} here.')
 
         # This avoids a double print of door and direction for exits
         directions_accounted_for = {'north': False, 'east': False, 'south':
@@ -70,7 +70,7 @@ class Place(GameObject):
 
         for direction, place in self.places.items():
             if not directions_accounted_for[direction] and place is not None:
-                UI.println(f"There is an exit to the {direction}.")
+                UI.println(f'There is an exit to the {direction}.')
 
     def on_go(self, player):
         player.move_to(self)
