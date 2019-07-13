@@ -40,15 +40,24 @@ def sanitize(dirty_input):
 
 def breakdown_sentence(tokenized_input):
     sentence = []
+    have_verb = False
+    have_noun = False
     for word in tokenized_input:
         if word in all_nouns and word in all_verbs:
-            sentence.append(Word(word, ['noun', 'verb']))
+            sentence.append(Word(word, ['noun', 'verb']), 5)
         elif word in all_verbs:
-            sentence.append(Word(word, ['verb']))
+            sentence.append(Word(word, ['verb'], 10))
         elif word in all_nouns:
-            sentence.append(Word(word, ['noun']))
+            sentence.append(Word(word, ['noun'], 10))
         elif word not in all_nouns and word not in all_verbs:
-            sentence.append(Word(word, ['unknown']))
+            # Logger.log()
+            if have_noun and not have_verb:
+                sentence.append(Word(word, ['verb'], 3))
+            elif have_verb and not have_noun:
+                sentence.append(Word(word, ['noun'], 3))
+            else:
+                sentence.append(Word(word, ['verb'], 0))
+            
     return sentence
 
 def find_target_by_string(noun, player):
@@ -150,3 +159,4 @@ class Action:
 class Word:
     string: str
     part_of_speech: list
+    confidence: int # confidence in the correct part of speech
