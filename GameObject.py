@@ -1,23 +1,18 @@
 import UI
 
 class GameObject:
-    def invoke(self, verb, player):
-        if verb == 'go':
-            self.on_go(player)
-        elif verb == 'look':
-            self.on_look(player)
-        elif verb == 'burn':
-            self.on_burn(player)
-        elif verb in ['take', 'get', 'obtain']:
-            self.on_pickup(player)
-        elif verb == 'drop':
-            self.on_drop(player)
-        elif verb == 'open':
-            self.on_open(player)
-        elif verb == 'close':
-            self.on_close(player)
-        else:
-            raise Exception('Verb not defined in GameObject.py')
+    def __init__(self):
+        self.interact = {
+            'go': self.on_go,
+            'look': self.on_look,
+            'burn': self.on_burn,
+            'take': self.on_pickup,
+            'get': self.on_pickup,
+            'obtain': self.on_pickup,
+            'drop': self.on_drop,
+            'open': self.on_open,
+            'close': self.on_close
+        }
 
     def on_burn(self, player):
         self.generic_reject()

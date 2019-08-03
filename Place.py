@@ -12,6 +12,7 @@ class Place(GameObject):
     def __init__(self, name, description, things_here=None, north=None,
             east=None, south=None, west=None, door_north=None, door_east=None,
             door_south=None, door_west=None):
+        super().__init__()
         self.description = description
 
         if things_here is None:

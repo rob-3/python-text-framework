@@ -3,6 +3,7 @@ import UI
 
 class Item(GameObject):
     def __init__(self, name, description, identifiers=None):
+        super().__init__()
         self.name = name
         self.description = description
 

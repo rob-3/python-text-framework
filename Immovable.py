@@ -3,6 +3,7 @@ import UI
 
 class Immovable(GameObject):
     def __init__(self, name, description, identifiers=None):
+        super().__init__()
         self.name = name
         self.description = description
 

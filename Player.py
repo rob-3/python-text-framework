@@ -6,6 +6,7 @@ import UI
 
 class Player(GameObject):
     def __init__(self, hp, inventory, starting_location):
+        super().__init__()
         # FIXME name
         self.name = '[Player name]'
         self.description = 'It\'s you, what did you expect?'

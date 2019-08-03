@@ -125,7 +125,7 @@ class Action:
     def run(self, player):
         if self.viable:
             if self.target is not None:
-                self.target.invoke(self.verb, player)
+                self.target.interact.get(self.verb, invalid_verb_handler)(player)
             else:
                 # Try to invoke intransitively
                 self.warn_about_unrecognized()
@@ -154,6 +154,9 @@ class Action:
             UI.println(f'The verb "{self.verb}" can\'t be used without an object.')
         else:
             raise Exception('Verb should\'ve been run.')
+
+def invalid_verb_handler():
+    UI.println('Critical error: unhandled verb in GameObject.py')
 
 @dataclass
 class Word:
