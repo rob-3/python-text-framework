@@ -25,7 +25,7 @@ class GameObject:
 
     def on_pickup(self, player):
         self.generic_reject()
-    
+
     def on_drop(self, player):
         self.generic_reject()
 
@@ -33,6 +33,12 @@ class GameObject:
         self.generic_reject()
 
     def on_close(self, player):
+        self.generic_reject()
+
+    def on_unlock(self, player):
+        self.generic_reject()
+
+    def on_lock(self, player):
         self.generic_reject()
 
     def print_description(self):
