@@ -111,6 +111,10 @@ class Action:
             if target is not None:
                 # viable
                 return Action(verb, target, sentence)
+            elif noun in ['north', 'east', 'south', 'west']:
+                # unviable; nothing to that direction
+                UI.println(f'There isn\'t anything to the {noun}.')
+                return Action(verb, None, sentence, False)
             else:
                 UI.println(f'Unable to bind token "{noun}" to an object. Sorry.')
                 # not viable
