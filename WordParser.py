@@ -159,8 +159,9 @@ class Action:
         else:
             raise Exception('Verb should\'ve been run.')
 
-def invalid_verb_handler():
-    UI.println('Critical error: unhandled verb in GameObject.py')
+def invalid_verb_handler(player):
+    # TODO improve with multiple responses and random choice
+    UI.println('You\'re not making any sense.')
 
 @dataclass
 class Word:

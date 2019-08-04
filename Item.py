@@ -11,6 +11,12 @@ class Item(GameObject):
             identifiers = []
         self.identifiers = identifiers
         self.identifiers.append(name.lower())
+
+        self.interact['pickup'] = self.on_pickup
+        self.interact['take'] = self.on_pickup
+        self.interact['get'] = self.on_pickup
+        self.interact['obtain'] = self.on_pickup
+        self.interact['drop'] = self.on_drop
     
     def on_burn(self, player):
         UI.println('This is not something you should burn.')

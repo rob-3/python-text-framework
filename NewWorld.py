@@ -1,12 +1,13 @@
 from Place import Place, Door
 from Item import Item
 
-intro_text = ('You wake up, sprawled on the floor in a small space. You don\'t '
-'feel too good and your brain feels foggy.')
+intro_text = ('You wake up, sprawled on the floor in a small space. You feel '
+              'slightly nauseous and your head is spinning.')
 
-closet = Place(name='Closet', description='You appear to be in a storage closet '
-        'of some kind.', door_north=Door(description='A simple wooden door.',
-            key_id='closet_door'))
+closet = Place(name='Closet', description='You appear to be in a storage closet of some kind.',
+               door_north=Door(description='A simple wooden door.', key_id='closet_door', locked=True),
+               things_here=[Item('Key', 'A simple worn metal key.')])
+
 hallway1 = Place(name='Hallway', description='You are standing in a hallway.')
 hallway2 = Place(name='Hallway', description='You are standing in a hallway.')
 

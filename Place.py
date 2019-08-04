@@ -25,6 +25,9 @@ class Place(GameObject):
         # FIXME appends doors to things_here
         # FIXME lists for direction refs and doors
 
+        self.interact['go'] = self.on_go
+        self.interact['burn'] = self.on_burn
+
     def contains_thing(self, game_object):
         '''
         This implementation relies on the fact that game_object.location is
@@ -188,6 +191,29 @@ class Door(Immovable):
         self.destination = None
         self.locked = locked
         self.closed = closed
+
+        self.interact['unlock'] = self.on_unlock
+        self.interact['lock'] = self.on_lock
+        self.interact['open'] = self.on_open
+        self.interact['close'] = self.on_close
+
+    def on_unlock(self, player):
+        if not self.locked:
+            UI.println('The door is already unlocked.')
+        elif player.has_key(self.key_id):
+            self.locked = False
+            UI.println('The door is now unlocked.')
+        else:
+            UI.println('You don\'t have the proper key to unlock this door.')
+
+    def on_lock(self, player):
+        if self.locked:
+            UI.println('The door is already locked.')
+        elif player.has_key(self.key_id):
+            self.locked = True
+            UI.println('The door is now locked.')
+        else:
+            UI.println('You don\'t have the proper key to unlock this door.')
 
     def other_side(self, place):
         if place is None:
