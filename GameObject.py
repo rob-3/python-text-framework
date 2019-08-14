@@ -7,7 +7,6 @@ class GameObject:
         }
 
     def on_look(self, player):
-        raise NotImplementedError
         self.print_description()
 
     def print_description(self):

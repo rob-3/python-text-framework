@@ -17,6 +17,7 @@ class Item(GameObject):
         self.interact['get'] = self.on_pickup
         self.interact['obtain'] = self.on_pickup
         self.interact['drop'] = self.on_drop
+        self.interact['burn'] = self.on_burn
     
     def on_burn(self, player):
         UI.println('This is not something you should burn.')
@@ -41,3 +42,8 @@ class Item(GameObject):
             player.take(self)
             player.location.give(self)
             UI.println('Taken.')
+
+class Key(Item):
+    def __init__(self, description, key_id, identifiers=None, name='Key'):
+        super().__init__(name, description, identifiers)
+        self.key_id = key_id

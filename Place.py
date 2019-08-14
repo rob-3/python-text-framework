@@ -196,6 +196,7 @@ class Door(Immovable):
         self.interact['lock'] = self.on_lock
         self.interact['open'] = self.on_open
         self.interact['close'] = self.on_close
+        self.interact['go'] = self.on_go
 
     def on_unlock(self, player):
         if not self.locked:
@@ -244,6 +245,8 @@ class Door(Immovable):
     def on_close(self, player):
         if self.closed:
             UI.println('The door is already closed.')
+        elif self.locked:
+            UI.println('The door is locked, so you cannot close it.')
         else:
             self.closed = True 
             UI.println('The door is now closed.')

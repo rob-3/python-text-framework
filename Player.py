@@ -3,6 +3,7 @@ The Player character in the game.
 '''
 from GameObject import GameObject
 import UI
+from Item import Key
 
 class Player(GameObject):
     def __init__(self, hp, inventory, starting_location):
@@ -14,6 +15,9 @@ class Player(GameObject):
         self.hp = hp
         self.inventory = inventory
         self.location = starting_location
+
+        self.interact['burn'] = self.on_burn
+        self.interact['go'] = self.on_go
 
     def move_to(self, location):
         self.location = location
@@ -68,3 +72,9 @@ class Player(GameObject):
 
     def has(self, item):
         return bool(item in self.inventory)
+
+    def has_key(self, key_id):
+        for item in self.inventory:
+            if isinstance(item, Key) and item.key_id == key_id:
+                return True
+        return False

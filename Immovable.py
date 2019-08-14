@@ -20,6 +20,5 @@ class Immovable(GameObject):
         # FIXME
         raise Exception('You can\'t drop this!')
 
-
     def on_pickup(self, player):
         UI.println('You should know you can\'t pick this up.')
