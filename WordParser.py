@@ -111,6 +111,10 @@ class Action:
             if target is not None:
                 # viable
                 return Action(verb, target, sentence)
+            elif noun in ['north', 'east', 'south', 'west']:
+                # unviable; nothing to that direction
+                UI.println(f'There isn\'t anything to the {noun}.')
+                return Action(verb, None, sentence, False)
             else:
                 UI.println(f'Unable to bind token "{noun}" to an object. Sorry.')
                 # not viable
@@ -125,7 +129,7 @@ class Action:
     def run(self, player):
         if self.viable:
             if self.target is not None:
-                self.target.invoke(self.verb, player)
+                self.target.interact.get(self.verb, invalid_verb_handler)(player)
             else:
                 # Try to invoke intransitively
                 self.warn_about_unrecognized()
@@ -154,6 +158,10 @@ class Action:
             UI.println(f'The verb "{self.verb}" can\'t be used without an object.')
         else:
             raise Exception('Verb should\'ve been run.')
+
+def invalid_verb_handler(player):
+    # TODO improve with multiple responses and random choice
+    UI.println('You\'re not making any sense.')
 
 @dataclass
 class Word:

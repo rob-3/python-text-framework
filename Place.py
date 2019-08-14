@@ -12,6 +12,7 @@ class Place(GameObject):
     def __init__(self, name, description, things_here=None, north=None,
             east=None, south=None, west=None, door_north=None, door_east=None,
             door_south=None, door_west=None):
+        super().__init__()
         self.description = description
 
         if things_here is None:
@@ -23,6 +24,9 @@ class Place(GameObject):
         self.doors = {'north': door_north, 'east': door_east, 'south': door_south, 'west': door_west}
         # FIXME appends doors to things_here
         # FIXME lists for direction refs and doors
+
+        self.interact['go'] = self.on_go
+        self.interact['burn'] = self.on_burn
 
     def contains_thing(self, game_object):
         '''
@@ -188,6 +192,30 @@ class Door(Immovable):
         self.locked = locked
         self.closed = closed
 
+        self.interact['unlock'] = self.on_unlock
+        self.interact['lock'] = self.on_lock
+        self.interact['open'] = self.on_open
+        self.interact['close'] = self.on_close
+        self.interact['go'] = self.on_go
+
+    def on_unlock(self, player):
+        if not self.locked:
+            UI.println('The door is already unlocked.')
+        elif player.has_key(self.key_id):
+            self.locked = False
+            UI.println('The door is now unlocked.')
+        else:
+            UI.println('You don\'t have the proper key to unlock this door.')
+
+    def on_lock(self, player):
+        if self.locked:
+            UI.println('The door is already locked.')
+        elif player.has_key(self.key_id):
+            self.locked = True
+            UI.println('The door is now locked.')
+        else:
+            UI.println('You don\'t have the proper key to unlock this door.')
+
     def other_side(self, place):
         if place is None:
             raise PassedWrongPlaceToDoorException()
@@ -217,6 +245,8 @@ class Door(Immovable):
     def on_close(self, player):
         if self.closed:
             UI.println('The door is already closed.')
+        elif self.locked:
+            UI.println('The door is locked, so you cannot close it.')
         else:
             self.closed = True 
             UI.println('The door is now closed.')

@@ -3,6 +3,7 @@ import UI
 
 class Immovable(GameObject):
     def __init__(self, name, description, identifiers=None):
+        super().__init__()
         self.name = name
         self.description = description
 
@@ -18,7 +19,6 @@ class Immovable(GameObject):
     def on_drop(self, player):
         # FIXME
         raise Exception('You can\'t drop this!')
-
 
     def on_pickup(self, player):
         UI.println('You should know you can\'t pick this up.')
