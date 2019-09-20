@@ -1,12 +1,13 @@
-all_verbs = ['go', 'look', 'burn', 'take', 'drop', 'get', 'obtain', 'open',
-        'close']
-all_nouns = ['north', 'south', 'east', 'west', 'around', 'here', 'me', 'myself',
-        'i', 'door']
-
 import re
 from dataclasses import dataclass
 
 import UI
+from Item import Container
+
+all_verbs = ['go', 'look', 'burn', 'take', 'drop', 'get', 'obtain', 'open',
+        'close']
+all_nouns = ['north', 'south', 'east', 'west', 'around', 'here', 'me', 'myself',
+        'i', 'door']
 
 def process_input(dirty_input, player):
     UI.println()
@@ -79,10 +80,12 @@ def find_target_by_string(noun, player):
 
     # If that doesn't work, start going over everything
     everything = player.get_all_things()
-    for thing in everything:
-        for identifier in thing.identifiers:
-            if noun == identifier:
-                return thing
+    for go in everything:
+        if isinstance(go, Container):
+            if go.has_thing_called(noun):
+                return go.get(noun)
+        if go.is_called(noun):
+            return go
     return None
 
 class Action:
