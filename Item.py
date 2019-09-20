@@ -18,7 +18,7 @@ class Item(GameObject):
         self.interact['obtain'] = self.on_pickup
         self.interact['drop'] = self.on_drop
         self.interact['burn'] = self.on_burn
-    
+
     def on_burn(self, player):
         UI.println('This is not something you should burn.')
 
