@@ -3,21 +3,21 @@ Place Module
 ------------
 This module defines a Place class
 '''
-from GameObject import GameObject
+from Item import Container
 from Immovable import Immovable
 import UI
 import WordParser as wp
 
-class Place(GameObject):
+class Place(Container):
     def __init__(self, name, description, things_here=None, north=None,
             east=None, south=None, west=None, door_north=None, door_east=None,
             door_south=None, door_west=None):
-        super().__init__()
+        super().__init__(things_here)
         self.description = description
 
         if things_here is None:
             things_here = []
-        self._things_here = things_here
+        self.things = things_here
         self.identifiers = ['here', 'around', name]
         self.name = name
         self.places = {'north': north, 'east': east, 'south': south, 'west': west}
@@ -27,13 +27,6 @@ class Place(GameObject):
 
         self.interact['go'] = self.on_go
         self.interact['burn'] = self.on_burn
-
-    def contains_thing(self, game_object):
-        '''
-        This implementation relies on the fact that game_object.location is
-        actually updated as it changes.
-        '''
-        return bool(game_object.location == self)
 
     def on_burn(self, player):
         if player.is_here(self):
@@ -53,7 +46,7 @@ class Place(GameObject):
         UI.print_in_box(self.name)
         UI.println(self.description)
 
-        for index, item in enumerate(self._things_here):
+        for index, item in enumerate(self.things):
             if index == 0:
                 UI.println()
             UI.println(f'There is a {item.name.lower()} here.')
@@ -170,16 +163,16 @@ class Place(GameObject):
                 self.doors['west'] = place.doors['east']
 
     def take(self, item):
-        self._things_here.append(item)
+        self.things.append(item)
 
     def give(self, item):
         # FIXME else
-        if item in self._things_here:
-            self._things_here.remove(item)
+        if item in self.things:
+            self.things.remove(item)
 
     @property
     def things_here(self):
-        return self._things_here + [door for door in self.doors.values() if door is not None]
+        return self.things + [door for door in self.doors.values() if door is not None]
 
 class Door(Immovable):
     def __init__(self, description, key_id, closed=True, locked=False, identifiers=None, name='Door'):
