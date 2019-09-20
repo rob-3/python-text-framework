@@ -2,7 +2,7 @@
 The main game class.
 '''
 import UI
-import NewWorld as world
+import LogCabin as world
 from Player import Player
 
 # TODO allow player to pick a world from many options
