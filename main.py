@@ -11,10 +11,11 @@ def main():
     '''
     The main function that is called when the game starts.
     '''
-    UI.println('Welcome to my game!')
-
     player = Player(100, [], world.initial_location)
-    UI.println(world.intro_text)
+    try:
+        UI.println(world.intro_text)
+    except AttributeError:
+        pass
     while True:
         player.location.on_enter(player)
     # FIXME no exit condition
