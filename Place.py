@@ -3,7 +3,7 @@ Place Module
 ------------
 This module defines a Place class
 '''
-from Item import Container
+from Container import Container
 from Immovable import Immovable
 import UI
 import WordParser as wp

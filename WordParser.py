@@ -2,12 +2,12 @@ import re
 from dataclasses import dataclass
 
 import UI
-from Item import Container
+from Container import Container
 
 all_verbs = ['go', 'look', 'burn', 'take', 'drop', 'get', 'obtain', 'open',
-        'close']
+        'close', 'use']
 all_nouns = ['north', 'south', 'east', 'west', 'around', 'here', 'me', 'myself',
-        'i', 'door']
+        'i', 'door', 'battery']
 
 def process_input(dirty_input, player):
     UI.println()

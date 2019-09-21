@@ -42,8 +42,15 @@ class Item(GameObject):
             player.take(self)
             player.location.give(self)
             UI.println('Taken.')
-
+class Flashlight(Item):
+    def __init__(self, description, battery_id, identifiers=None, name='Flashlight'):
+        super().__init__(name, description, identifiers)
+        self.battery_id = battery_id
 class Key(Item):
     def __init__(self, description, key_id, identifiers=None, name='Key'):
         super().__init__(name, description, identifiers)
         self.key_id = key_id
+class Battery(Item):
+    def __init__(self, description, battery_id, identifiers=None, name='Battery'):
+        super().__init__(name, description, identifiers)
+        self.battery_id = battery_id
