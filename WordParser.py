@@ -14,8 +14,8 @@ def debug_shell(player):
     while True:
         try:
             var = input('>>> ')
-            exec(var, {}, {'w': player.world, 'world': player.world, 'p': player, 'player': player})
-            print(eval(var, {}, {'w': player.world, 'world': player.world, 'p': player, 'player': player}))
+            exec(var, {**player.globals}, {'p': player, 'player': player})
+            print(eval(var, {**player.globals}, {'p': player, 'player': player}))
         except EOFError:
             UI.println()
             return
