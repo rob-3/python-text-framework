@@ -16,7 +16,7 @@ class World():
                 things_here=[Item(name='Item2', description='Item in a room!')])
 
         # remove the line below in your subclass
-        #raise NotImplementedError()
+        raise NotImplementedError()
 
     def start_adventure(self, player):
         '''
@@ -37,7 +37,7 @@ class World():
         self.end_adventure(player)
 
         # remove the line below in your subclass
-        #raise NotImplementedError()
+        raise NotImplementedError()
 
     def end_adventure(self, player):
         '''
@@ -45,4 +45,4 @@ class World():
         like credits.
         '''
         # remove the line below in your subclass
-        #raise NotImplementedError()
+        raise NotImplementedError()
