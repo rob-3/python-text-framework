@@ -1,4 +1,4 @@
-from Place import Place
+from Place import *
 from Item import *
 from Container import Container
 
