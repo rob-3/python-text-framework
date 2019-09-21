@@ -7,7 +7,7 @@ class World():
         # all init for rooms/items goes here
         self.place1 = Place(name='Place', description='A nice place')
         self.item1 = Item(name='Item', description='An item')
-
+        
         # you can also create things inline to put them inside of rooms
         # however, they will no longer be available to the debugger without a
         # prefix if you choose to do this (of course you can still access them

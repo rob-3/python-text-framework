@@ -3,7 +3,7 @@ The Player character in the game.
 '''
 from GameObject import GameObject
 import UI
-from Item import Key
+from Item import *
 from functional import forEach
 
 class Player(GameObject):
@@ -89,3 +89,7 @@ class Player(GameObject):
             if isinstance(item, Key) and item.key_id == key_id:
                 return True
         return False
+    def has_tool(self, cut_id):
+        for item in self.inventory:
+            if isinstance(item, Trimmer) and item.cut_id == cut_id:
+                return True

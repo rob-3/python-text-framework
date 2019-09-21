@@ -54,3 +54,7 @@ class Battery(Item):
     def __init__(self, description, battery_id, identifiers=None, name='Battery'):
         super().__init__(name, description, identifiers)
         self.battery_id = battery_id
+class Trimmer(Item):
+    def __init__(self, description, cut_id, identifiers=None, name='Trimmer'):
+        super().__init__(name, description, identifiers)
+        self.cut_id = cut_id
