@@ -43,7 +43,7 @@ class Place(Container):
             UI.println('Too far away.')
 
     def print_description(self):
-        UI.print_in_box(self.name)
+        UI.print_in_box(self.name, True)
         UI.println(self.description)
 
         for index, item in enumerate(self.things):

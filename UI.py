@@ -12,7 +12,7 @@ def print(string=''):
     builtinprint(textwrap.fill(string, 80), end='')
 
 
-def print_in_box(string, heavy=True):
+def print_in_box(string, heavy):
     '''
     Prints a string inside of a box using box drawing characters. Passing None
     or '' will result in a return without any box being printed.
@@ -49,7 +49,6 @@ def print_in_box(string, heavy=True):
             for char in string:
                 print('─')
             println('┘')
-
 
 def prompt():
     println()

@@ -100,6 +100,8 @@ class Action:
         sentence = breakdown_sentence(tokenized_input)
         # FIXME naive implementation: I just look up that the first verb and
         # then consider the next word the noun
+        if len(tokenized_input) == 1 and tokenized_input[0] == 'i':
+            return Action('i', player, sentence)
         verb = None
         noun = None
         for index, word in enumerate(sentence):

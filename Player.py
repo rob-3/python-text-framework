@@ -4,6 +4,7 @@ The Player character in the game.
 from GameObject import GameObject
 import UI
 from Item import Key
+from functional import forEach
 
 class Player(GameObject):
     def __init__(self, hp, inventory, starting_location):
@@ -18,6 +19,16 @@ class Player(GameObject):
 
         self.interact['burn'] = self.on_burn
         self.interact['go'] = self.on_go
+        self.interact['i'] = self.view_inventory
+
+    def view_inventory(self, player):
+        if self.inventory == []:
+            UI.println('There is nothing in your inventory.')
+        else:
+            UI.print_in_box('Inventory', True)
+            def describe(go):
+                go.print_description()
+            forEach(self.inventory, describe)
 
     def move_to(self, location):
         self.location = location
