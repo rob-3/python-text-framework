@@ -18,3 +18,8 @@ class GameObject:
             if identifier == string:
                 return True
         return False
+
+    # for debug shell
+    def __str__(self):
+        self.print_description()
+        return None

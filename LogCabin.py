@@ -26,3 +26,4 @@ cabin_livingroom.east = cabin_bedroom2
 cabin_bedroom2.north = cabin_closet
 
 initial_location = cabin_livingroom
+world_globals = globals()
