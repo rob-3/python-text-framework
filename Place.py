@@ -304,6 +304,7 @@ class Vinewall(Immovable):
         self.interact['break'] = self.on_cut
         self.interact['destroy'] = self.on_cut
         self.interact['slice'] = self.on_cut
+        self.interact['go'] = self.on_go
 
     def on_cut(self, player):
         if self.cut:
@@ -325,7 +326,7 @@ class Vinewall(Immovable):
             raise PassedWrongPlaceToDoorException()
 
     def on_go(self, player):
-            self.other_side(player.location).on_go(player)
+        self.other_side(player.location).on_go(player)
 
 class PassedWrongPlaceToDoorException(Exception):
     pass
