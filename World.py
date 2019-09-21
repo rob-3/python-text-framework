@@ -1,6 +1,7 @@
 import UI
 from Place import Place
 from Item import Item
+from Player import Player
 
 class World():
     def __init__(self):
@@ -46,3 +47,6 @@ class World():
         '''
         # remove the line below in your subclass
         raise NotImplementedError()
+
+if __name__ == '__main__':
+    World().start_adventure(Player())

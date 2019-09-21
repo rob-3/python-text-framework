@@ -7,14 +7,16 @@ from Item import *
 from functional import forEach
 
 class Player(GameObject):
-    def __init__(self, hp, inventory):
+    def __init__(self, inventory=None):
         super().__init__()
         # FIXME name
         self.name = '[Player name]'
         self.description = 'It\'s you, what did you expect?'
         self.identifiers = ['me', 'myself', 'i']
-        self.hp = hp
-        self.inventory = inventory
+        if inventory is None:
+            self.inventory = []
+        else:
+            self.inventory = inventory
         self.location = None
 
         self.interact['burn'] = self.on_burn
