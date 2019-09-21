@@ -7,7 +7,7 @@ from Item import Key
 from functional import forEach
 
 class Player(GameObject):
-    def __init__(self, hp, inventory, starting_location):
+    def __init__(self, hp, inventory):
         super().__init__()
         # FIXME name
         self.name = '[Player name]'
@@ -15,7 +15,7 @@ class Player(GameObject):
         self.identifiers = ['me', 'myself', 'i']
         self.hp = hp
         self.inventory = inventory
-        self.location = starting_location
+        self.location = None
 
         self.interact['burn'] = self.on_burn
         self.interact['go'] = self.on_go

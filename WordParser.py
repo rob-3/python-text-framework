@@ -3,7 +3,6 @@ from dataclasses import dataclass
 
 import UI
 from Container import Container
-import LogCabin as world
 
 all_verbs = ['go', 'look', 'burn', 'take', 'drop', 'get', 'obtain', 'open',
         'close', 'use']
@@ -14,8 +13,8 @@ def debug_shell(player):
     while True:
         try:
             var = input('>>> ')
-            exec(var, {}, {**world.world_globals, 'p': player, 'player': player})
-            print(eval(var, {}, {**world.world_globals, 'p': player, 'player': player}))
+            exec(var, {}, {'w': player.world, 'world': player.world, 'p': player, 'player': player})
+            print(eval(var, {}, {'w': player.world, 'world': player.world, 'p': player, 'player': player}))
         except EOFError:
             UI.println()
             return
