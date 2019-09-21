@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 import UI
 from Container import Container
+from functools import reduce
 
 
 all_verbs = ['go', 'look', 'burn', 'take', 'drop', 'get', 'obtain', 'open',
@@ -80,31 +81,26 @@ def breakdown_sentence(tokenized_input):
     return sentence
 
 def find_target_by_string(noun, player):
-    # TODO priorities for different things to intelligently select the correct object
-
-    # Check if noun is null or empty
-    if noun is None or noun == '':
-        return None
-
     # First try a couple of special identifiers that change over time
     if noun == 'north':
-        return player.north
+        return [player.north]
     if noun == 'east':
-        return player.east
+        return [player.east]
     if noun == 'south':
-        return player.south
+        return [player.south]
     if noun == 'west':
-        return player.west
+        return [player.west]
 
     # If that doesn't work, start going over everything
     everything = player.get_all_things()
-    for go in everything:
+    def get_matching(accum, go):
         if isinstance(go, Container):
-            if go.has_thing_called(noun):
-                return go.get(noun)
+            if go.get(noun) != []:
+                accum.extend(go.get(noun))
         if go.is_called(noun):
-            return go
-    return None
+            accum.append(go)
+    targets = reduce(get_matching, everything, [])
+    return targets
 
 class Action:
     def __init__(self, verb, target, sentence, viable=True):

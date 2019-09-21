@@ -1,8 +1,5 @@
+from functools import reduce
 from GameObject import GameObject
-import HigherOrderFunction as hof
-
-class NoSuchGameObjectInContainerException(Exception):
-    pass
 
 class Container(GameObject):
     def __init__(self, things):
@@ -12,23 +9,20 @@ class Container(GameObject):
         else:
             self.things = []
 
-    def has_thing_called(self, game_object):
-        '''
-        Checks if there is game_object is in self.things with identifier
-        game_object
-        '''
-        maybe_thing = hof.find(self.things, lambda thing: bool(thing is game_object))
-        if maybe_thing is not None:
-            return True
-        return False
-
     def get(self, string):
-        thing = hof.find(self.things, lambda thing: thing.is_called(string))
-        if thing is not None:
-            return thing
-        else:
-            raise NoSuchGameObjectInContainerException(f'Tried to get a '
-            '"{string}" from {self.things}')
+        '''
+        Takes a string which is checked against all identifiers in the
+        Container. An array of any matching items is returned.
+        '''
+        def function(accum, new_elem):
+            if isinstance(new_elem, Container):
+                matching_contents = reduce(function, new_elem, [])
+                accum.append(matching_contents)
+            if new_elem.is_called(string):
+                accum.append(new_elem)
+            return accum
+        things = reduce(function, self.things, [])
+        return things
 
     def print_description(self):
         raise NotImplementedError()
