@@ -11,7 +11,6 @@ def println(string=''):
 def print(string=''):
     builtinprint(textwrap.fill(string, 80), end='')
 
-
 def print_in_box(string, heavy):
     '''
     Prints a string inside of a box using box drawing characters. Passing None
