@@ -12,8 +12,10 @@ class Container(GameObject):
     def get(self, string):
         '''
         Takes a string which is checked against all identifiers in the
-        Container. An array of any matching items is returned.
+        Container. An array of any matching items is returned. An empty array
+        will be returned if no objects match.
         '''
+        # FIXME prevent "" from being matched just to be defensive
         def function(accum, new_elem):
             if isinstance(new_elem, Container):
                 matching_contents = reduce(function, new_elem, [])
