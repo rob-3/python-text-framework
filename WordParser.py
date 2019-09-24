@@ -80,7 +80,12 @@ def breakdown_sentence(tokenized_input):
             
     return sentence
 
-def find_target_by_string(noun, player):
+def get_targets_from_string(noun, player):
+    '''
+    Looks in the current Place for a GameObject with an identifier that matches
+    noun. Returns a list of matching GameObject. Returns an empty list if
+    nothing matches or if noun or player is null.
+    '''
     # First try a couple of special identifiers that change over time
     if noun == 'north':
         return [player.north]
@@ -102,7 +107,14 @@ def find_target_by_string(noun, player):
     targets = reduce(get_matching, everything, [])
     return targets
 
+# TODO add flag for dev messages
 class Action:
+    '''
+    Action represents a binding from some user input to the resultant in-game
+    action that has not yet been invoked. The recommended way to use it is to
+    call create_action() and then action.run()
+    '''
+    # TODO add logging here
     def __init__(self, verb, target, sentence, viable=True):
         self.verb = verb
         self.target = target
@@ -111,6 +123,12 @@ class Action:
 
     @staticmethod
     def create_action(tokenized_input, player):
+        '''
+        Creates an Action object and returns it. This should be used to process
+        user input. An object will always be returned, regardless of whether the
+        input is valid or makes sense. Calling action.run() on such an Action
+        will result in output telling the user where parsing or comprehesion failed.
+        '''
         sentence = breakdown_sentence(tokenized_input)
         # FIXME naive implementation: I just look up that the first verb and
         # then consider the next word the noun
@@ -126,18 +144,22 @@ class Action:
                     noun = sentence[index + 1].string
                 break
         if noun is not None and verb is not None:
-            target = find_target_by_string(noun, player)
-            if target is not None:
-                # viable
-                return Action(verb, target, sentence)
-            elif noun in ['north', 'east', 'south', 'west']:
-                # unviable; nothing to that direction
-                UI.println(f'There isn\'t anything to the {noun}.')
-                return Action(verb, None, sentence, False)
-            else:
+            possible_targets = get_targets_from_string(noun, player)
+            chosen_target = None
+            if len(possible_targets) == 0:
+                # No targets were found
+                # TODO improve message as this is likely to occur a lot
                 UI.println(f'Unable to bind token "{noun}" to an object. Sorry.')
                 # not viable
                 return Action(verb, None, sentence, False)
+            elif len(possible_targets) == 1:
+                chosen_target = possible_targets[0]
+                # viable
+                return Action(verb, chosen_target, sentence)
+            else:
+                for target in possible_targets:
+                    pass
+                    # TODO decide best target
         elif noun is None and verb is not None:
             # viable - might be intransitive
             return Action(verb, noun, sentence)
@@ -146,12 +168,12 @@ class Action:
             return Action(verb, noun, sentence, False)
 
     def run(self, player):
+        self.warn_about_unrecognized()
         if self.viable:
             if self.target is not None:
                 self.target.interact.get(self.verb, invalid_verb_handler)(player)
             else:
                 # Try to invoke intransitively
-                self.warn_about_unrecognized()
                 self.try_intransitive(player)
         else:
             self.debug()
@@ -166,6 +188,7 @@ class Action:
         for word in self.sentence:
             if word.part_of_speech == 'unknown':
                 UI.println(f'Unrecognized token "{word.string}".')
+                UI.println('Add it to the global dictionaries in WordParser.py')
 
     def debug(self):
         if self.verb is None and self.target is None:
