@@ -2,6 +2,10 @@ from functools import reduce
 from GameObject import GameObject
 
 class Container(GameObject):
+    '''
+    Abstract class for GameObjects that should be able to contain other
+    GameObjects. Extend this, don't instantiate.
+    '''
     def __init__(self, things):
         super().__init__()
         if things is not None:
@@ -25,6 +29,3 @@ class Container(GameObject):
             return accum
         things = reduce(function, self.things, [])
         return things
-
-    def print_description(self):
-        raise NotImplementedError()
