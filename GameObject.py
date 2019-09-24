@@ -6,7 +6,11 @@ class GameObject:
             'look': self.on_look,
         }
         self.identifiers = []
-        self.description = ""
+        self._description = ""
+
+    @property
+    def description(self):
+        return self._description
 
     def on_look(self, player):
         UI.println(self.description)

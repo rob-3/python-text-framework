@@ -5,7 +5,7 @@ class Immovable(GameObject):
     def __init__(self, name, description, identifiers=None):
         super().__init__()
         self.name = name
-        self.description = description
+        self._description = description
 
         if identifiers is None:
             identifiers = []
@@ -13,8 +13,22 @@ class Immovable(GameObject):
         self.identifiers.append(name.lower())
 
     def print_description(self):
+        '''
+        DEPRECATED: Use Immovable.description and then call UI.println()
+        yourself.
+        '''
         UI.print_in_box(self.name, False)
-        UI.println(self.description)
+        UI.println(self._description)
+
+    @property
+    def description(self):
+        '''
+        Returns description of immovable, complete with the name boxed.
+        '''
+        return_string = ''
+        return_string += UI.wrap_in_box(self.name, False)
+        return_string += self._description + '\n'
+        return return_string
 
     def on_drop(self, player):
         # FIXME

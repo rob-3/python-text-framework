@@ -11,7 +11,7 @@ class Player(GameObject):
         super().__init__()
         # FIXME name
         self.name = '[Player name]'
-        self.description = 'It\'s you, what did you expect?'
+        self._description = 'It\'s you, what did you expect?'
         self.identifiers = ['me', 'myself', 'i']
         if inventory is None:
             self.inventory = []
@@ -29,7 +29,7 @@ class Player(GameObject):
         else:
             UI.print_in_box('Inventory', True)
             def describe(go):
-                go.print_description()
+                UI.println(go.description)
             forEach(self.inventory, describe)
 
     def move_to(self, location):
@@ -72,8 +72,9 @@ class Player(GameObject):
     def on_go(self, player):
         UI.println('You are already with yourself.')
 
-    def print_description(self):
-        UI.println(self.description)
+    @property
+    def description(self):
+        return self._description + '\n'
 
     def take(self, item):
         self.inventory.append(item)

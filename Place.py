@@ -13,7 +13,7 @@ class Place(Container):
             east=None, south=None, west=None, door_north=None, door_east=None,
             door_south=None, door_west=None, vinewall_north=None, vinewall_east=None, vinewall_south=None, vinewall_west=None):
         super().__init__(things_here)
-        self.description = description
+        self._description = description
 
         if things_here is None:
             things_here = []
@@ -29,6 +29,47 @@ class Place(Container):
         self.interact['go'] = self.on_go
         self.interact['burn'] = self.on_burn
 
+    @property
+    def description(self):
+        '''
+        Returns a description of the Place, dynamically generated based on what
+        is present and the properties of objects.
+        '''
+        return_string = ''
+        return_string += UI.wrap_in_box(self.name, True)
+        return_string += self._description + '\n'
+
+        for index, item in enumerate(self.things):
+            if index == 0:
+                return_string += '\n'
+            return_string += f'There is a {item.name.lower()} here.\n'
+
+        # This avoids a double print of door and direction for exits
+        directions_accounted_for = {'north': False, 'east': False, 'south':
+                False, 'west': False}
+        # We want a leading blank line to help with readability
+        return_string += '\n'
+
+        for direction, door in self.doors.items():
+            if door is not None:
+                if door.closed:
+                    return_string += f'There is a closed door to the {direction}.\n'
+                else:
+                    return_string += f'There is an open door to the {direction}.\n'
+                directions_accounted_for[direction] = True
+        for direction, vinewall in self.vinewalls.items():
+            if vinewall is not None:
+                if vinewall.cut:
+                    return_string += f'The wall of vines is cut open and you can go through it to the {direction}.\n'
+                else:
+                    return_string += f'There is a wall of vines to the {direction}.\n'
+                directions_accounted_for[direction] = True
+        for direction, place in self.places.items():
+            if not directions_accounted_for[direction] and place is not None:
+                return_string += f'There is an exit to the {direction}.\n'
+
+        return return_string
+
     def on_burn(self, player):
         if player.is_here(self):
             UI.println('What kind of pyromaniac are you?')
@@ -38,14 +79,17 @@ class Place(Container):
 
     def on_look(self, player):
         if player.is_here(self):
-            self.print_description()
+            UI.println(self.description)
         else:
             # FIXME
             UI.println('Too far away.')
 
     def print_description(self):
+        '''
+        DEPRECATED: Use Place.description instead, and print with UI.println().
+        '''
         UI.print_in_box(self.name, True)
-        UI.println(self.description)
+        UI.println(self._description)
 
         for index, item in enumerate(self.things):
             if index == 0:
@@ -81,7 +125,7 @@ class Place(Container):
 
     def on_enter(self, player):
         # TODO should we be adding player to things_here?
-        self.print_description()
+        UI.println(self.description)
         while player.is_here(self):
             wp.process_input(UI.prompt(), player)
 
@@ -225,7 +269,7 @@ class Door(Immovable):
     def __init__(self, description, key_id, closed=True, locked=False, identifiers=None, name='Door'):
         super().__init__(name, description, identifiers)
         self.key_id = key_id
-        self.description = description
+        self._description = description
         self.name = name
         self.origin = None
         self.destination = None
@@ -294,7 +338,7 @@ class Vinewall(Immovable):
     def __init__(self, description, cut_id, cut=False, identifiers=None, name='Vinewall'):
         super().__init__(name, description, identifiers)
         self.cut_id = cut_id
-        self.description = description
+        self._description = description
         self.name = name
         self.origin = None
         self.destination = None

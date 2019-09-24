@@ -5,7 +5,7 @@ class Item(GameObject):
     def __init__(self, name, description, identifiers=None):
         super().__init__()
         self.name = name
-        self.description = description
+        self._description = description
 
         if identifiers is None:
             identifiers = []
@@ -26,8 +26,22 @@ class Item(GameObject):
         UI.println('You\'re there.')
 
     def print_description(self):
+        '''
+        DEPRECATED: Use Item.description instead and call UI.println() yourself.
+        '''
         UI.print_in_box(self.name, False)
         UI.println(self.description)
+
+    @property
+    def description(self):
+        '''
+        Returns a formatted string containing the description of this Item,
+        complete with a nice box.
+        '''
+        return_string = ''
+        return_string += UI.wrap_in_box(self.name, False)
+        return_string += self._description + '\n'
+        return return_string
 
     def on_drop(self, player):
         # FIXME else
