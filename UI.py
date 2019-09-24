@@ -3,20 +3,25 @@ Fully implemented
 '''
 import textwrap
 from builtins import print as builtinprint
+from functional import forEach
 
-def println(string=''):
+w = textwrap.TextWrapper(width=80, replace_whitespace=False)
+
+def println(string='\n'):
     '''
     Print string, wrapped at 80 chars. Adds a newline to the end of the string.
     Use instead of print() to ensure wrapping works as intended.
     '''
-    builtinprint(textwrap.fill(string, 80))
+    list_of_strings = string.splitlines()
+    forEach(list_of_strings, lambda string: builtinprint(w.fill(string)))
 
 def print(string=''):
     '''
     Print string, wrapped at 80 chars. Does not add a newline to the end of the
     string. You probably want UI.println().
     '''
-    builtinprint(textwrap.fill(string, 80), end='')
+    list_of_strings = string.splitlines()
+    forEach(list_of_strings, lambda string: builtinprint(w.fill(string), end=''))
 
 class StringTooLongException(Exception):
     '''
