@@ -6,12 +6,10 @@ class GameObject:
             'look': self.on_look,
         }
         self.identifiers = []
+        self.description = ""
 
     def on_look(self, player):
-        self.print_description()
-
-    def print_description(self):
-        raise NotImplementedError
+        UI.println(self.description)
 
     def is_called(self, string):
         for identifier in self.identifiers:
@@ -21,5 +19,4 @@ class GameObject:
 
     # for debug shell
     def __str__(self):
-        self.print_description()
-        return None
+        return self.description
