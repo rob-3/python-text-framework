@@ -8,7 +8,7 @@ from Container import Container
 all_verbs = ['go', 'look', 'burn', 'take', 'drop', 'get', 'obtain', 'open',
         'close', 'use']
 all_nouns = ['north', 'south', 'east', 'west', 'around', 'here', 'me', 'myself',
-        'i', 'door', 'vinewall', 'vines', 'battery']
+        'i', 'door', 'battery']
 
 def debug_shell(player):
     while True:
