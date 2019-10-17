@@ -24,7 +24,15 @@ def start_adventure(player):
     # this line is important if you want debugging to work
     player.globals = globals()
 
+    # set initial location of player
     player.location = place1
+
+    # attaches place2 to the north of place1
+    place1.north = place2
+
+    # this is equivalent to the above
+    # you only need one or the other
+    place2.south = place1
 
     # set the breakout condition to when you want to end the game
     while True:
