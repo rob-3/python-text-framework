@@ -4,12 +4,12 @@ from Item import *
 from Container import Container
 from Player import Player
 
-intro_text = 'You wake up feeling terrible. Your head is aching, and you are sitting against a wall with a broken window on it. You have multiple cuts and bruises on you, and you are very tired and injured. You see a man who you recognise to be your best friend laying on the ground with a pool of blood around him. To your horror, you realize that he is dead with a knife in his heart, and he too has multiple cuts and bruises on his body. The last thing you remember is your friend\'s horrified face as he fell to the ground, dying.'
+intro_text = 'You wake up. You\'re slumped against a wooden wall. As you rise to your feet and begin to assess your surroundings, you almost lose your balance and tumble back to the ground. After a moment, your vision clears.'
 
 
 cabin_exterior = Place(name='Cabin Exterior', description='The ground around the cabin is muddy, but a gravel path leads to the front door of the cabin. To the west is a thick wall of trees.', door_north=Door(description='A worn front door to the log cabin.', key_id='cabin_door', locked=True))
 
-cabin_livingroom = Place(name='Cabin Living Room', description='In the main room of the log cabin, there is a lit fireplace that crackles as it gives off heat, and there are two chairs next to the fireplace.  You see your friend\'s dead body on the ground, and you are reminded of his gruesome death.', things_here=[Key(name='key', description='A simple worn metal key.', key_id='cabin_door')])
+cabin_livingroom = Place(name='Cabin Living Room', description='In the main room of the log cabin, there is a lit fireplace that crackles as it gives off heat, and there are two chairs next to the fireplace.', things_here=[Key(name='key', description='A simple worn metal key.', key_id='cabin_door')])
 
 cabin_bedroom1 = Place(name='Cabin Bedroom', description='The bedroom has a large bed with a drawer beside it.  A candle-lit table is at the end of the room.')
 
