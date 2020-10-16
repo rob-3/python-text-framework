@@ -178,7 +178,8 @@ class Action:
             UI.println(f'I get that you want to do something with '
             '"{self.target}", but I couldn\'t figure out what.')
         elif self.verb is not None and self.target is None:
-            UI.println(f'The verb "{self.verb}" can\'t be used without an object.')
+            """UI.println(f'The verb "{self.verb}" can\'t be used without an
+            object.')"""
         else:
             raise Exception('Verb should\'ve been run.')
 
